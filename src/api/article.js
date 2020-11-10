@@ -11,7 +11,7 @@ export function getInfoByUid(id) {
   return request({
     url: '/info/getInfoByUid',
     method: 'get',
-    params: { id }
+    params:  {id}
   })
 }
 // export function getAllRoles() {

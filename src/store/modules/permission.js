@@ -66,8 +66,7 @@ const actions = {
   setRouter({commit}, roles) {
     return new Promise(async resolve => {
         let menuList=[]
-          // 1
-      console.log(roles);
+
           let {data} =await getRoutes({roles})
           menuList=menuList.concat(data.list)
           menuList = unique(menuList)
@@ -76,7 +75,7 @@ const actions = {
         let menuRouters = [] //定义一个空数组，这个是用来装真正路由数据的
         function unique(arr) {
           const res = new Map();
-          return arr.filter((arr) => !res.has(arr.pid) && res.set(arr.pid, 1))
+          return arr.filter((arr) => !res.has(arr.id) && res.set(arr.id, 1))
         }
         //下面就要根据后端的菜单数据组装树型路由数据
         //先取出根节点，没有父pid的就是根节点
@@ -89,7 +88,7 @@ const actions = {
               alwaysShow: true,
               name: m.title,
               redirect: '',
-              meta: {pid: m.pid,icon: 'user', title: m.title, fullPath: '/' + m.path},
+              meta: {id: m.id,icon: 'user', title: m.title, fullPath: '/' + m.path},
               children: [
               ]
             }
@@ -101,7 +100,7 @@ const actions = {
         function convertTree(routers) {
           routers.forEach(r => {
             menuList.forEach((m, i) => {
-              if (m.fid !==0 && m.fid === r.meta.pid) {
+              if (m.fid !==0 && m.fid === r.meta.id) {
                 if (!r.children) r.children = []
                 m.fullPath = r.meta.fullPath + '/' + m.path
                 r.redirect = m.fullPath
@@ -109,7 +108,7 @@ const actions = {
                   path: m.path,
                   name:m.title,
                   component: require('@/views' + r.meta.fullPath + '/' + m.path).default,
-                  meta: {pid: m.pid, title: m.title,icon: 'user', fullPath: r.meta.fullPath + '/' + m.path},
+                  meta: {id: m.id, title: m.title,icon: 'user', fullPath: r.meta.fullPath + '/' + m.path},
                   children: [
                   ]
                 }

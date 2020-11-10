@@ -10,7 +10,6 @@ export function getToken(token) {
 
 export function setToken(token) {
   // time = new Date()
-  console.log('step--------------->3')
   return window.sessionStorage.setItem(TokenKey, token)
 }
 

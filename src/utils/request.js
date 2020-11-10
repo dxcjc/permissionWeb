@@ -7,7 +7,7 @@ import { getToken } from '@/utils/auth'
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 500000000 // request timeout
+  timeout: 5000 // request timeout
 })
 
 // request interceptor
@@ -19,7 +19,6 @@ service.interceptors.request.use(
       // 让每个请求携带令牌
       // ['X-Token']是一个自定义标题键
       // 请根据实际情况进行修改
-      console.log('-------------', config)
       config.headers['authorization'] = getToken() // "Bearer "这个也是约定的，必须是这样的格式
     }
     return config

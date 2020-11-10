@@ -1,10 +1,10 @@
 import request from '@/utils/request'
 
-export function edit(rname) {
+export function edit(data) {
   return request({
     url: '/routes/edit',
-    method: 'get',
-    params: {rname}
+    method: 'post',
+    data
   })
 }
 
@@ -16,10 +16,11 @@ export function getRoutes(data) {
   })
 }
 
-export function getAllRoles() {
+export function getRoles(data) {
   return request({
-    url: '/role/getAllRoles',
-    method: 'get',
+    url: '/role/getRoles',
+    method: 'post',
+    data
   })
 }
 

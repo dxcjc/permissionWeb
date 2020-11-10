@@ -1,7 +1,7 @@
 import request from '@/utils/request'
 
 export function login(data) {
-  console.log('step--------------->2')
+
   return request({
     url: '/user/login',
     method: 'post',
@@ -10,7 +10,7 @@ export function login(data) {
 }
 
 export function getInfo(token) {
-  console.log('step--------------->7')
+
   return request({
     url: '/user/info',
     method: 'get',

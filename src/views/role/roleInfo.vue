@@ -5,7 +5,7 @@
       style="width: 100%"
       v-auth="'roleInfo:roleInfo'">
       <el-table-column
-        prop="rid"
+        prop="id"
         label="角色id">
       </el-table-column>
       <el-table-column
@@ -14,8 +14,8 @@
       </el-table-column>
       <el-table-column label="操作">
         <template slot-scope="{row}">
-          <el-button type="primary" icon="el-icon-edit" @click="edit(row.rname,row.rid)" v-auth="'roleInfo:edit'"></el-button>
-          <el-button type="danger" icon="el-icon-delete" @click="deleteRole(row.rid)" v-auth="'roleInfo:delete'"></el-button>
+          <el-button type="primary" icon="el-icon-edit" @click="edit(row.id)" v-auth="'roleInfo:edit'"></el-button>
+          <el-button type="danger" icon="el-icon-delete" @click="deleteRole(row.id)" v-auth="'roleInfo:delete'"></el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -23,12 +23,11 @@
     <el-dialog
       title="添加权限"
       :visible.sync="dialogVisible"
-      width="30%"
     >
       <el-tree ref="tree"
                :data="routes"
                show-checkbox
-               node-key="pid"
+               node-key="id"
                :default-expanded-keys="checkedKeys"
                :default-checked-keys="checkedKeys"
                :props="defaultProps">
@@ -44,7 +43,7 @@
 
 <script>
 
-import {edit, getAllRoles, getAllRoute, deleteRoute, updatePermission} from '@/api/router'
+import {edit, getRoles, getAllRoute, deleteRoute, updatePermission} from '@/api/router'
 import {deleteRoleOnUser, deleteRoleOnPermission, deleteRoleByRid} from '@/api/role'
 
 export default {
@@ -70,14 +69,15 @@ export default {
   },
   methods: {
     async getRoles() {
-      const res = await getAllRoles()
+      let roles = this.$store.getters.roles
+      const res = await getRoles({roles})
       this.rolesList = res.data
     },
 
-    async edit(rname, rid) {
+    async edit(id) {
       this.dialogVisible = true
-      this.currentRoleId = rid
-      let {data} = await edit(rname)
+      this.currentRoleId = id
+      let {data} = await edit({id,roles:this.$store.getters.roles})
       this.checkedKeys = data.info
       this.routes = data.routes
       console.log(this.checkedKeys);

@@ -42,11 +42,9 @@ Vue.directive('auth', {
     let btnDesc = binding.value
     //从token中拿roles更新不及时，要刷新才跟新roles
     getToken()
-    console.log(jwt.verify(getToken(), 'secret12345'));
     let roles = jwt.verify(getToken(), 'secret12345').roles
     // let roles = this.$store.state.roles
     let {data} = await getBtnInfo({desc:btnDesc,roles})
-    console.log(data);
     if (!data) {
       el.parentNode && el.parentNode.removeChild(el)
     }
@@ -68,7 +66,7 @@ Object.keys(filters).forEach(key => {
 //
 // })
 Vue.config.productionTip = false
-console.log(router);
+
 new Vue({
   el: '#app',
   router,
