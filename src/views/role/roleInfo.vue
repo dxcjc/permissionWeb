@@ -24,13 +24,14 @@
       title="添加权限"
       :visible.sync="dialogVisible"
     >
-      <el-tree ref="tree"
-               :data="routes"
-               show-checkbox
-               node-key="id"
-               :default-expanded-keys="checkedKeys"
-               :default-checked-keys="checkedKeys"
-               :props="defaultProps">
+      <el-tree 
+        ref="tree"
+        :data="routes"
+        show-checkbox
+        node-key="id"
+        :default-expanded-keys="checkedKeys"
+        :default-checked-keys="checkedKeys"
+        :props="defaultProps">
       </el-tree>
       <span slot="footer" class="dialog-footer">
         <el-button @click="dialogVisible = false">取 消</el-button>
@@ -43,8 +44,8 @@
 
 <script>
 
-import {edit, getRoles, getAllRoute, deleteRoute, updatePermission} from '@/api/router'
-import {deleteRoleOnUser, deleteRoleOnPermission, deleteRoleByRid} from '@/api/role'
+import {edit, getRoles, updatePermission} from '@/api/router'
+import { deleteRoleByRid } from '@/api/role'
 
 export default {
   data() {
@@ -69,7 +70,7 @@ export default {
   },
   methods: {
     async getRoles() {
-      let roles = this.$store.getters.roles
+      const roles = this.$store.getters.roles
       const res = await getRoles({roles})
       this.rolesList = res.data
     },
@@ -77,14 +78,14 @@ export default {
     async edit(id) {
       this.dialogVisible = true
       this.currentRoleId = id
-      let {data} = await edit({id,roles:this.$store.getters.roles})
+      const {data} = await edit({id,roles:this.$store.getters.roles})
       this.checkedKeys = data.info
       this.routes = data.routes
       console.log(this.checkedKeys);
     },
 
     async updatePermission() {
-      let list = this.$refs.tree.getCheckedKeys()
+      const list = this.$refs.tree.getCheckedKeys()
       list = list.concat(this.$refs.tree.getHalfCheckedKeys())
       console.log(list);
       await updatePermission({rid: this.currentRoleId, list})
@@ -92,7 +93,7 @@ export default {
     },
 
     async deleteRole(rid) {
-      let {data} = await deleteRoleByRid(rid)
+      const {data} = await deleteRoleByRid(rid)
       await this.getRoles()
       console.log(rid);
     }

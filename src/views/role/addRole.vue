@@ -42,7 +42,6 @@ export default {
       this.rolesList = res.data
     },
     async addRole() {
-      console.log(this.role);
       let {code} = await addRole({role: this.role})
       if (code === 0) {
         confirm('添加成功')
