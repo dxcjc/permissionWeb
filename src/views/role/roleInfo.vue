@@ -70,30 +70,29 @@ export default {
   },
   methods: {
     async getRoles() {
-      const roles = this.$store.getters.roles
-      const res = await getRoles({roles})
+      let roles = this.$store.getters.roles
+      let res = await getRoles({roles})
       this.rolesList = res.data
     },
 
     async edit(id) {
       this.dialogVisible = true
       this.currentRoleId = id
-      const {data} = await edit({id,roles:this.$store.getters.roles})
+      let {data} = await edit({id,roles:this.$store.getters.roles})
       this.checkedKeys = data.info
       this.routes = data.routes
       console.log(this.checkedKeys);
     },
 
     async updatePermission() {
-      const list = this.$refs.tree.getCheckedKeys()
+      let list = this.$refs.tree.getCheckedKeys()
       list = list.concat(this.$refs.tree.getHalfCheckedKeys())
-      console.log(list);
       await updatePermission({rid: this.currentRoleId, list})
       this.dialogVisible = false
     },
 
     async deleteRole(rid) {
-      const {data} = await deleteRoleByRid(rid)
+      let {data} = await deleteRoleByRid(rid)
       await this.getRoles()
       console.log(rid);
     }
